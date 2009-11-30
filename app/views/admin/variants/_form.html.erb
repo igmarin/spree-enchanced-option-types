@@ -5,13 +5,12 @@
       <p>
         <%= label :new_variant, option.option_type.presentation %><br />
         <% if @variant.new_record? %>
-          <%= select(:new_variant, option.option_type.presentation,
+          <%= select(:new_variant, option.option_type.presentation, 
             option.option_type.option_values.collect {|ov| [ ov.presentation, ov.id ] },
-            {})
-        %>
+            {}) 
+          %>
         <% else %>
-          <% ov = @variant.option_values.detect {|o| o.option_type == option.option_type } %>
-          <% opt = ov.presentation + "(#{ov.amount.sign_symbol} #{ov.amount.abs})" %>
+          <% opt = @variant.option_values.detect {|o| o.option_type == option.option_type }.presentation %>
           <%= text_field(:new_variant,  option.option_type.presentation, :value => opt, :disabled => 'disabled') %>
         <% end %>
       </p>
@@ -21,11 +20,8 @@
     <%= f.text_field :sku %></p>
 
 
-    <p>
-      <%= f.label :price, t("price") %>:<br />
-      <%= f.text_field :price %><br />
-      (price will be calculated automatically from option values and master price if left empty)
-    </p>
+    <p><%= f.label :price, t("price") %>:<br />
+    <%= f.text_field :price %></p>
 
 
     <p><%= f.label :on_hand, t("on_hand") %>: <br />
@@ -37,7 +33,7 @@
   <div class="yui-u">
 
     <% Variant.additional_fields.select{|af| af[:only].nil? || af[:only].include?(:variant) }.each do |field| %>
-      <%= render :partial => "admin/shared/additional_field", :locals => {:field => field, :f => f, :label_text => t(field[:name].downcase, :scope => [:activerecord, :attributes, :variant])} %>
+      <%= render :partial => "admin/shared/additional_field", :locals => {:field => field, :f => f} %>
     <% end %>
 
   </div>

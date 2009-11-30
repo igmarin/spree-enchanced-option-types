@@ -6,6 +6,8 @@
       Base price:
       <span class="price selling"><%= product_price(@product) %></span>
     </div>
+
+  <% if @product.has_variants? %>
     <% if @product.default_variant %>
       <div class="modified_price">
         Current price:
@@ -41,6 +43,7 @@
       </fieldset>
       <% selected_values << default_value.id;
     end %>
+<% end %>
   </div>
 
   <%= text_field_tag (@product.has_variants? ? :quantity : "variants[#{@product.master.id}]"),
