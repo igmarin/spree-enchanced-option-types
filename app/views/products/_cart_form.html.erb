@@ -82,14 +82,5 @@
       // this should be absolutelly always possible, but just to be sure
       if (checked_radio[0])
         selected_values.push(checked_radio.attr('id').replace(/\D+/, ''))
-    })
-
-    var new_price = parseFloat($('.original_price .price').text().replace(/[^\d,.]/g, ''))
-    $('#product-variants input:checked ~ .modifier').each(function(i, el){
-      var modifier = parseFloat($(el).text().replace(/[^\d,.-]/g, ''))
-      new_price = new_price + modifier
-    })
-    new_price = $('.modified_price .price').text().replace(/[\d,.-]+/, new_price.toFixed(2))
-    $('.modified_price .price').text(new_price)
-  });
+    });
 </script>
