@@ -1,3 +1,15 @@
+<% content_for :head do %>
+<script type="text/javascript" charset="utf-8">
+	
+	$(document).ready(function(){
+		var disabled_radio = $(document).find("input[disabled=disabled]");
+		var li_disabled = disabled_radio.parent();
+		disabled_radio.remove();
+		li_disabled.remove();
+	 });
+</script>
+<% end %>
+
 <% ov_combinations = options_values_combinations(@product) %>
 
 <% form_for :order, :url => orders_url do |f| %>
