@@ -1,16 +1,7 @@
-<% content_for :head do %>
-<script type="text/javascript" charset="utf-8">
-	
-	$(document).ready(function(){
-		var disabled_radio = $(document).find("input[disabled=disabled]");
-		var li_disabled = disabled_radio.parent();
-		disabled_radio.remove();
-		li_disabled.remove();
-	 });
-</script>
-<% end %>
 
+<% numero = Array.new %>
 <% ov_combinations = options_values_combinations(@product) %>
+
 
 <% form_for :order, :url => orders_url do |f| %>
   <% if @product.has_variants? %>
@@ -20,25 +11,29 @@
     <% @product.option_types.uniq.each do |option_type|
       default_value = default_values[option_type.id].first;
     %>
-      <fieldset>
-        <legend> <%= option_type.presentation %> </legend>
-        <ul><% option_type.option_values.each_with_index do |option_value, i| %>
-            <li>
-              <%= radio_button_tag(
-                "option_values[#{@product.id}][#{option_type.id}]",
-                option_value.id,
-                option_value == default_value,
-                :disabled => !possible_combination?(ov_combinations, selected_values+[option_value.id]),
-                :id => "ov_"+option_value.id.to_s
-              ) %>
-              <%= option_value.presentation %>
-            </li>
-        <% end %></ul>
-      </fieldset>
+      
+        <% option_type.option_values.each_with_index do |option_value, i| %>
+            
+		<% numero << option_value if possible_combination?(ov_combinations, selected_values+[option_value.id]) && option_value.option_type.presentation == "Numero"  %>
+		<% option_value == default_value  %>
+
+        <% end %>
+		
       <% selected_values << default_value.id;
     end %>
 <% end %>
+
+
+
+		<fieldset>
+ 			<legend> Número </legend>
+				<%= select_tag("option_values[#{@product.id}][#{numero.id}]", "<option>Selecciona</option>" + 		options_from_collection_for_select(numero,:id, :presentation )) %>
+      </fieldset>
+
+
+
   </div>
+
 
   <%= text_field_tag (@product.has_variants? ? :quantity : "variants[#{@product.master.id}]"),
     1, :class => "title", :size => 3 %>
