@@ -1,8 +1,8 @@
-<%= button_link_to "regenerate variants",
+<%= button_link_to t(:regenerate),
   {:action => :regenerate, :product_id => params[:product_id]},
   :method => :post,
   :icon => 'exclamation',
-  :confirm => "This will wipe out all your current variants\nAre you sure?",
+  :confirm => t(:regenerate_confirm),
   :style => "float: right"
 %>
 
@@ -52,11 +52,13 @@
   <div id="variants"></div>
   <br/>
   <p id="new_var_link">
-      <%= link_to_remote icon('add') + ' ' + t("new_variant"), 
-                         {:url => new_admin_product_variant_url(@product), 
-                         :method => :get,
-                         :update => "variants"}, :class => 'iconlink' %>
-    </span>&nbsp;|&nbsp;<%= link_to @deleted.blank? ? t("show_deleted") : t("show_active"), admin_product_variants_url(@product, :deleted =>  @deleted.blank? ? "on" : "off") %>
+    <%= link_to_remote icon('add') + ' ' + t("new_variant"),
+      {:url => new_admin_product_variant_url(@product),
+      :method => :get,
+      :update => "variants",
+      :before => "$('#new_var_link').hide();$('#busy_indicator').show();",
+      :complete => "$('#busy_indicator').hide();"}, :class => 'iconlink' %>
+  </span>&nbsp;|&nbsp;<%= link_to @deleted.blank? ? t("show_deleted") : t("show_active"), admin_product_variants_url(@product, :deleted =>  @deleted.blank? ? "on" : "off") %>
   </p>
   <%= image_tag "spinner.gif", :plugin=>"spree", :style => "display:none", :id => 'busy_indicator' %>
 <% end %>
