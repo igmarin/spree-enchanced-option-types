@@ -44,7 +44,7 @@
         <p>
           <%= f.label :available_on, t("available_on") %><br />
           <%= f.error_message_on :available_on %>
-          <%= f.unobtrusive_date_text_picker :product, :available_on, :style=>"width:150px" %>
+          <%= f.unobtrusive_date_text_picker :available_on, :style=>"width:150px" %>
         </p>
 
 
@@ -57,3 +57,4 @@
 </fieldset>
 <% end %>
 <%= javascript_tag "datePickerController.create();" %>
+
